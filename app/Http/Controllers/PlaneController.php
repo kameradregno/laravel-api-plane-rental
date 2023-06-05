@@ -46,15 +46,15 @@ class PlaneController extends Controller
             'owner' => 'required'
         ]);
 
-        if ($request->file('image')) {
+        if ($request->file) {
             $validated = $request->validate([
                 'image' => 'mimes:jpg,jpeg,png|max:100000'
             ]);
 
             $fileName = $this->generateRandomString();
-            $extension = $request->file('image')->extension();
+            $extension = $request->file->extension();
 
-            Storage::putFileAs('image', $request->file('image'), $fileName . '.' . $extension);
+            Storage::putFileAs('image', $request->file, $fileName . '.' . $extension);
 
             $request['image'] = $fileName . '.' . $extension;
             $request['owner'] = Auth::user()->id;
